@@ -1,15 +1,18 @@
 # Notes Editor
 
-A clean, modern text editor built with Electron and TypeScript for Linux.
+A clean, modern text editor built with Electron and TypeScript for Linux, featuring robust Markdown support and a sleek dark UI.
 
 ## Features
 
-- 📝 **Simple Text Editing** - Distraction-free writing experience
-- 💾 **File Operations** - Open, save, and create new files
-- 🎨 **Modern Dark UI** - Easy on the eyes with a sleek design
-- ⌨️ **Keyboard Shortcuts** - Efficient workflow with common shortcuts
-- 📊 **Live Statistics** - Real-time word, character, and line count
-- 🖥️ **Cross-Platform** - Built for Linux, but works on other platforms too
+- 📝 **Simple Text Editing** - Distraction-free writing experience.
+- ⚡ **Markdown Support** - Live preview, headers, lists, links, and code highlighting (`**bold**`, `*italic*`, etc.).
+- 🔗 **Rich Interaction** - Clickable links, email autolinks, and hover tooltips.
+- 🖱️ **Context Menu** - Right-click to Cut, Copy, and **Paste**.
+- 💾 **File Operations** - Open, save, and create new files with perfect formatting persistence.
+- 🎨 **Modern Dark UI** - Easy on the eyes with Glassmorphism elements.
+- ⌨️ **Keyboard Shortcuts** - Efficient workflow with common shortcuts.
+- 📊 **Live Statistics** - Real-time word, character, and line count.
+- 🖥️ **Cross-Platform** - Built for Linux, but works on other platforms too.
 
 ## Project Structure
 
@@ -74,7 +77,7 @@ Then in another terminal:
 npm start
 ```
 
-## Building
+## Building & Packaging
 
 ### Compile TypeScript
 
@@ -82,15 +85,37 @@ npm start
 npm run build
 ```
 
-### Package for Linux
+### Package for Linux (Debian/Ubuntu)
 
 ```bash
 npm run package:linux
 ```
 
 This will create distributable packages in the `release/` directory:
-- `.AppImage` - Portable application
-- `.deb` - Debian/Ubuntu package
+- **.AppImage** - Portable application (runs on most Linux distros)
+- **.deb** - Debian/Ubuntu package
+
+### Arch Linux / AUR Support
+
+While this package is not yet officially hosted on the AUR, you can easily install it on Arch Linux using one of the following methods:
+
+#### Method 1: AppImage (Universal)
+1. Build the AppImage: `npm run package:linux`
+2. Locate the file in `release/Notes Editor-x.x.x.AppImage`.
+3. Make it executable: `chmod +x release/*.AppImage`
+4. Run it directly: `./release/Notes Editor-x.x.x.AppImage` (or double click).
+
+#### Method 2: Convert .deb using `debtap`
+If you prefer a native package manager installation:
+
+1. Install `debtap` from AUR: `yay -S debtap`
+2. Update debtap database: `sudo debtap -u`
+3. Build the .deb package: `npm run package:linux`
+4. Convert the .deb:
+   ```bash
+   debtap release/notes-editor_0.3.0_amd64.deb
+   ```
+5. Install the generated package: `sudo pacman -U notes-editor-*.pkg.tar.zst`
 
 ## Keyboard Shortcuts
 
@@ -100,6 +125,7 @@ This will create distributable packages in the `release/` directory:
 | `Ctrl+O` | Open File |
 | `Ctrl+S` | Save File |
 | `Ctrl+Shift+S` | Save As |
+| `Tab` | Insert 2 Spaces |
 
 ## Architecture
 
@@ -118,16 +144,6 @@ This will create distributable packages in the `release/` directory:
 - User interface and interactions
 - Communicates with main process via exposed APIs
 - Handles editor state and statistics
-
-## Clean Code Principles Applied
-
-1. **Separation of Concerns** - Main, preload, and renderer are clearly separated
-2. **Class-Based Architecture** - Encapsulation of logic in classes
-3. **Type Safety** - Full TypeScript support with proper type definitions
-4. **Security** - Context isolation and minimal API exposure
-5. **Documentation** - Comprehensive JSDoc comments
-6. **Modularity** - Each file has a single, clear responsibility
-7. **Error Handling** - Proper try-catch blocks and user feedback
 
 ## Security Features
 
