@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes Editor
 
-## Getting Started
+A clean, modern text editor built with Electron and TypeScript for Linux.
 
-First, run the development server:
+## Features
+
+- 📝 **Simple Text Editing** - Distraction-free writing experience
+- 💾 **File Operations** - Open, save, and create new files
+- 🎨 **Modern Dark UI** - Easy on the eyes with a sleek design
+- ⌨️ **Keyboard Shortcuts** - Efficient workflow with common shortcuts
+- 📊 **Live Statistics** - Real-time word, character, and line count
+- 🖥️ **Cross-Platform** - Built for Linux, but works on other platforms too
+
+## Project Structure
+
+```
+notes-editor/
+├── src/
+│   ├── main.ts           # Main process (Electron backend)
+│   ├── preload.ts        # Preload script (secure IPC bridge)
+│   └── types.d.ts        # TypeScript type definitions
+├── renderer/
+│   ├── index.html        # HTML structure
+│   ├── styles.css        # Styling
+│   └── renderer.ts       # Renderer process (UI logic)
+├── dist/                 # Compiled JavaScript (generated)
+├── release/              # Packaged applications (generated)
+├── package.json          # Project configuration
+└── tsconfig.json         # TypeScript configuration
+```
+
+## Prerequisites
+
+- Node.js (v16 or higher)
+- npm (comes with Node.js)
+
+## Installation
+
+1. **Clone or navigate to the project directory**
+
+```bash
+cd /home/kuba/Antigravity/notes
+```
+
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+## Development
+
+### Run in development mode
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This will:
+1. Compile TypeScript files to JavaScript
+2. Launch the Electron application
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Watch mode (auto-recompile on changes)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+In a separate terminal, run:
 
-## Learn More
+```bash
+npm run watch
+```
 
-To learn more about Next.js, take a look at the following resources:
+Then in another terminal:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Building
 
-## Deploy on Vercel
+### Compile TypeScript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Package for Linux
+
+```bash
+npm run package:linux
+```
+
+This will create distributable packages in the `release/` directory:
+- `.AppImage` - Portable application
+- `.deb` - Debian/Ubuntu package
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+N` | New File |
+| `Ctrl+O` | Open File |
+| `Ctrl+S` | Save File |
+| `Ctrl+Shift+S` | Save As |
+
+## Architecture
+
+### Main Process (`src/main.ts`)
+- Manages application lifecycle
+- Creates and controls windows
+- Handles file system operations
+- Implements IPC handlers
+
+### Preload Script (`src/preload.ts`)
+- Secure bridge between main and renderer processes
+- Exposes safe APIs using `contextBridge`
+- Prevents direct access to Node.js APIs
+
+### Renderer Process (`renderer/`)
+- User interface and interactions
+- Communicates with main process via exposed APIs
+- Handles editor state and statistics
+
+## Clean Code Principles Applied
+
+1. **Separation of Concerns** - Main, preload, and renderer are clearly separated
+2. **Class-Based Architecture** - Encapsulation of logic in classes
+3. **Type Safety** - Full TypeScript support with proper type definitions
+4. **Security** - Context isolation and minimal API exposure
+5. **Documentation** - Comprehensive JSDoc comments
+6. **Modularity** - Each file has a single, clear responsibility
+7. **Error Handling** - Proper try-catch blocks and user feedback
+
+## Security Features
+
+- **Context Isolation** - Prevents renderer from accessing Node.js directly
+- **No Node Integration** - Renderer process runs in a sandboxed environment
+- **Content Security Policy** - Restricts resource loading
+- **Minimal API Surface** - Only essential functions exposed to renderer
+
+## License
+
+MIT
+
+## Author
+
+Jakub Urbański

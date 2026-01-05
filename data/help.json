@@ -1,0 +1,45 @@
+{
+    "version": "0.2.1",
+    "title": "Notes Editor - Help",
+    "sections": [
+        {
+            "heading": "Markdown Features",
+            "content": "This editor supports Live Markdown Preview. Use these shortcuts to format your text instantly:",
+            "items": [
+                "**Headers**: Use `# H1`, `## H2`, `### H3` for titles.",
+                "**Lists**: Use `- Item` for bullet points, or `1. Item` for numbered lists.",
+                "**Emphasis**: Use `**bold**` or `*italic*` (or `***both***`).",
+                "**Blockquotes**: Start a line with `>` to create a quote block.",
+                "**Code**: Wrap text in backticks `code` for inline code highlighting.",
+                "**Separators**: Use `---` or `***` on a new line for a horizontal rule."
+            ]
+        },
+        {
+            "heading": "Links & Navigation",
+            "items": [
+                "**Standard Link**: `[Link Text](https://example.com)`",
+                "**Title Link**: `[Link Text](url \"Hover Title\")`",
+                "**Autolink**: `<https://example.com>` or `<email@example.com>`",
+                "**Interaction**: Hold **Ctrl** (or Cmd) and Click a link to open it."
+            ]
+        },
+        {
+            "heading": "Keyboard Shortcuts",
+            "items": [
+                "**Ctrl+N**: Create a new file",
+                "**Ctrl+O**: Open an existing file",
+                "**Ctrl+S**: Save the current file",
+                "**Ctrl+Shift+S**: Save as...",
+                "**Tab**: Insert 2 spaces"
+            ]
+        },
+        {
+            "heading": "Interface",
+            "items": [
+                "**Status Bar**: Shows lines, words, chars, and save status (Orange=Unsaved).",
+                "**Font Switcher**: Click the font name in the bottom right to cycle fonts.",
+                "**Live Preview**: Syntax characters are automatically hidden when you type."
+            ]
+        }
+    ]
+}
