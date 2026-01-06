@@ -1,6 +1,3 @@
-/**
- * Type definitions for Electron API in renderer process
- */
 
 export interface FileResult {
     success: boolean;

@@ -20,7 +20,7 @@
         ]
     },
     "include": [
-        "renderer.ts"
+        "*.ts"
     ],
     "exclude": [
         "node_modules"

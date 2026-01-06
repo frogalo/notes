@@ -18,6 +18,14 @@ class TextEditorApp {
      * Initialize the Electron application
      */
     private initializeApp(): void {
+        // Handle GPU-related issues on Linux
+        // Disable GPU acceleration if there are GPU detection failures
+        app.commandLine.appendSwitch('disable-gpu-sandbox');
+        app.commandLine.appendSwitch('ignore-gpu-blacklist');
+
+        // Suppress GPU process crash warnings
+        app.disableHardwareAcceleration();
+
         app.on('ready', () => this.createWindow());
         app.on('window-all-closed', () => this.handleWindowsClosed());
         app.on('activate', () => this.handleActivate());
@@ -98,17 +106,23 @@ class TextEditorApp {
         });
 
         // Save file dialog
-        ipcMain.handle('dialog:saveFile', async (_, content: string) => {
+        ipcMain.handle('dialog:saveFile', async (_, content: string, suggestedName?: string) => {
             let filePath = this.currentFilePath;
 
             if (!filePath) {
-                const result = await dialog.showSaveDialog({
+                const options: Electron.SaveDialogOptions = {
                     filters: [
                         { name: 'Text Files', extensions: ['txt'] },
                         { name: 'Markdown Files', extensions: ['md'] },
                         { name: 'All Files', extensions: ['*'] },
                     ],
-                });
+                };
+
+                if (suggestedName) {
+                    options.defaultPath = suggestedName;
+                }
+
+                const result = await dialog.showSaveDialog(options);
 
                 if (result.canceled || !result.filePath) {
                     return { success: false, error: 'Save cancelled' };

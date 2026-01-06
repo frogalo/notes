@@ -1,44 +1,131 @@
 {
-    "version": "0.2.1",
+    "version": "0.4.2",
     "title": "Notes Editor - Help",
     "sections": [
         {
-            "heading": "Markdown Features",
-            "content": "This editor supports Live Markdown Preview. Use these shortcuts to format your text instantly:",
+            "heading": "Getting Started",
+            "icon": "rocket",
+            "description": "Welcome to Notes Editor! This is a modern markdown text editor with live preview.",
             "items": [
-                "**Headers**: Use `# H1`, `## H2`, `### H3` for titles.",
-                "**Lists**: Use `- Item` for bullet points, or `1. Item` for numbered lists.",
-                "**Emphasis**: Use `**bold**` or `*italic*` (or `***both***`).",
-                "**Blockquotes**: Start a line with `>` to create a quote block.",
-                "**Code**: Wrap text in backticks `code` for inline code highlighting.",
-                "**Separators**: Use `---` or `***` on a new line for a horizontal rule."
+                {
+                    "label": "Document Title",
+                    "text": "The first line is automatically styled as your document title"
+                },
+                {
+                    "label": "Live Preview",
+                    "text": "Syntax characters hide automatically while you type, showing clean formatted text"
+                },
+                {
+                    "label": "Smart Lists",
+                    "text": "Press Enter in a list to continue it. Empty list item? Press Enter again to exit"
+                }
             ]
         },
         {
-            "heading": "Links & Navigation",
+            "heading": "Markdown Syntax",
+            "icon": "code-2",
+            "description": "Format your text with simple markdown syntax",
             "items": [
-                "**Standard Link**: `[Link Text](https://example.com)`",
-                "**Title Link**: `[Link Text](url \"Hover Title\")`",
-                "**Autolink**: `<https://example.com>` or `<email@example.com>`",
-                "**Interaction**: Hold **Ctrl** (or Cmd) and Click a link to open it."
+                {
+                    "label": "Headers",
+                    "syntax": "# H1  ## H2  ### H3",
+                    "text": "Create headers of different sizes"
+                },
+                {
+                    "label": "Bold Text",
+                    "syntax": "**bold text**",
+                    "text": "Make text bold for emphasis"
+                },
+                {
+                    "label": "Italic Text",
+                    "syntax": "*italic text*",
+                    "text": "Italicize text for subtle emphasis"
+                },
+                {
+                    "label": "Bold + Italic",
+                    "syntax": "***bold and italic***",
+                    "text": "Combine both for maximum emphasis"
+                },
+                {
+                    "label": "Inline Code",
+                    "syntax": "`code here`",
+                    "text": "Highlight code or technical terms"
+                },
+                {
+                    "label": "Links",
+                    "syntax": "[Link Text](https://url.com)",
+                    "text": "Create clickable hyperlinks"
+                },
+                {
+                    "label": "Blockquotes",
+                    "syntax": "> Quote text",
+                    "text": "Add quotes or callouts"
+                },
+                {
+                    "label": "Bullet Lists",
+                    "syntax": "- List item",
+                    "text": "Create unordered lists with -, *, or +"
+                },
+                {
+                    "label": "Numbered Lists",
+                    "syntax": "1. List item",
+                    "text": "Create ordered lists with numbers"
+                },
+                {
+                    "label": "Horizontal Rule",
+                    "syntax": "---",
+                    "text": "Add a divider line"
+                }
             ]
         },
         {
             "heading": "Keyboard Shortcuts",
+            "icon": "keyboard",
+            "description": "Save time with these handy shortcuts",
             "items": [
-                "**Ctrl+N**: Create a new file",
-                "**Ctrl+O**: Open an existing file",
-                "**Ctrl+S**: Save the current file",
-                "**Ctrl+Shift+S**: Save as...",
-                "**Tab**: Insert 2 spaces"
+                {
+                    "label": "New File",
+                    "syntax": "Ctrl+N",
+                    "text": "Create a new document"
+                },
+                {
+                    "label": "Open File",
+                    "syntax": "Ctrl+O",
+                    "text": "Open an existing document"
+                },
+                {
+                    "label": "Save",
+                    "syntax": "Ctrl+S",
+                    "text": "Save current document"
+                },
+                {
+                    "label": "Save As",
+                    "syntax": "Ctrl+Shift+S",
+                    "text": "Save with a new name/location"
+                }
             ]
         },
         {
-            "heading": "Interface",
+            "heading": "Interface Features",
+            "icon": "layout-dashboard",
+            "description": "Make the most of the editor interface",
             "items": [
-                "**Status Bar**: Shows lines, words, chars, and save status (Orange=Unsaved).",
-                "**Font Switcher**: Click the font name in the bottom right to cycle fonts.",
-                "**Live Preview**: Syntax characters are automatically hidden when you type."
+                {
+                    "label": "Status Indicator",
+                    "text": "The colored dot shows save status (Pink = Unsaved, Cyan = Saved)"
+                },
+                {
+                    "label": "Font Switcher",
+                    "text": "Click the font name in the status bar to cycle through fonts"
+                },
+                {
+                    "label": "Statistics",
+                    "text": "View real-time line, character, and word counts in the status bar"
+                },
+                {
+                    "label": "Right-Click Menu",
+                    "text": "Right-click anywhere to access Cut, Copy, and Paste"
+                }
             ]
         }
     ]

@@ -3,14 +3,98 @@
     "title": "Changelog",
     "releases": [
         {
+            "version": "0.4.3",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Redesigned Help tab with modern card-based layout and Lucide icons",
+                        "Restructured Help content with clear sections and code examples",
+                        "Redesigned Changelog with comprehensive category system and icon indicators"
+                    ]
+                },
+                {
+                    "category": "CHANGED",
+                    "items": [
+                        "Updated changelog categories to industry-standard classification system",
+                        "Removed milestone distinction in favor of consistent versioning"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.4.2",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "ADDED",
+                    "items": [
+                        "Integrated Lucide Icons for consistent, modern iconography",
+                        "Vibrant gradient buttons (Primary: Blue/Cyan, Secondary: Purple, Accent: Pink)",
+                        "Ripple animations to all interactive buttons"
+                    ]
+                },
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Redesigned UI with Tailwind-inspired button components",
+                        "Modernized toolbar with glassmorphism effects and shadows",
+                        "Enhanced context menu with backdrop blur and gradient hover effects"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.4.1",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "ADDED",
+                    "items": [
+                        "Document Title: First line is now treated as a distinct Title with custom styling",
+                        "Smart Save: Auto-suggest filename based on Document Title",
+                        "Smart List Continuation: Pressing Enter in lists creates new items automatically",
+                        "List Exit: Double Enter (on empty list item) exits list mode"
+                    ]
+                },
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "First line now correctly recognized as title on new documents",
+                        "GPU detection errors on Linux systems with hardware acceleration disabled",
+                        "List formatting now properly continues with sequential numbering for ordered lists"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.4.0",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Refactored renderer code into modular structure (MarkdownUtils, UIManager, ContextMenu)",
+                        "Improved code maintainability and cleanliness"
+                    ]
+                }
+            ]
+        },
+        {
             "version": "0.3.0",
             "date": "2026-01-05",
             "changes": [
                 {
-                    "category": "Milestone",
+                    "category": "ADDED",
                     "items": [
                         "Robust Save/Open system that preserves Markdown syntax perfectly",
-                        "Added 'Paste' to context menu",
+                        "Paste functionality to context menu"
+                    ]
+                },
+                {
+                    "category": "IMPROVED",
+                    "items": [
                         "Distinct typography for Bold (White), Italic (Blue), and Bold+Italic (Pink)"
                     ]
                 }
@@ -21,7 +105,7 @@
             "date": "2026-01-05",
             "changes": [
                 {
-                    "category": "Added",
+                    "category": "ADDED",
                     "items": [
                         "Custom Context Menu (Right-Click) with Cut and Copy options",
                         "Seamless integration with editor theme"
@@ -34,12 +118,16 @@
             "date": "2026-01-05",
             "changes": [
                 {
-                    "category": "Modernization",
+                    "category": "IMPROVED",
                     "items": [
-                        "Complete visual overhaul of Help and Changelog modals with 'Glassmorphism' and 'Tailwind-inspired' design",
-                        "Added Badge styling for change categories (Added, Fixed, Changed)",
-                        "Help modal now parses markdown formatting correctly",
-                        "Changelog now highlights major milestones with distinct cards"
+                        "Complete visual overhaul of Help and Changelog modals with Glassmorphism design",
+                        "Badge styling for change categories"
+                    ]
+                },
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "Help modal now parses markdown formatting correctly"
                     ]
                 }
             ]
@@ -49,10 +137,10 @@
             "date": "2026-01-05",
             "changes": [
                 {
-                    "category": "Modernization",
+                    "category": "IMPROVED",
                     "items": [
-                        "Refreshed Changelog UI with modern styling and milestone tracking",
-                        "Added visual distinctions for major version releases"
+                        "Refreshed Changelog UI with modern styling",
+                        "Added visual distinctions for version releases"
                     ]
                 }
             ]
@@ -62,7 +150,7 @@
             "date": "2026-01-05",
             "changes": [
                 {
-                    "category": "Added",
+                    "category": "ADDED",
                     "items": [
                         "Added support for Standard Links (`[text](url)`)",
                         "Added support for Title Links (`[text](url \"title\")`)",

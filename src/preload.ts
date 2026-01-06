@@ -32,8 +32,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     /**
      * Save file (use current path or prompt)
      */
-    saveFile: (content: string): Promise<FileResult> => {
-        return ipcRenderer.invoke('dialog:saveFile', content);
+    saveFile: (content: string, suggestedName?: string): Promise<FileResult> => {
+        return ipcRenderer.invoke('dialog:saveFile', content, suggestedName);
     },
 
     /**

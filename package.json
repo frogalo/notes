@@ -1,6 +1,6 @@
 {
   "name": "notes-editor",
-  "version": "0.3.0",
+  "version": "0.4.3",
   "description": "A simple text editor built with Electron",
   "main": "dist/main.js",
   "author": "Your Name",
