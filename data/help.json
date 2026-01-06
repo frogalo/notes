@@ -1,5 +1,5 @@
 {
-    "version": "0.4.2",
+    "version": "0.5.1.2",
     "title": "Notes Editor - Help",
     "sections": [
         {
@@ -75,6 +75,11 @@
                     "label": "Horizontal Rule",
                     "syntax": "---",
                     "text": "Add a divider line"
+                },
+                {
+                    "label": "Nota Annotations",
+                    "syntax": "Text here |Annotation",
+                    "text": "Type '|' and cursor auto-jumps to annotation. Annotations stick to text and grow naturally"
                 }
             ]
         },

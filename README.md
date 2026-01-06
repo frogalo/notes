@@ -1,6 +1,6 @@
 # Notes Editor
 
-A clean, modern text editor built with Electron and TypeScript for Linux, featuring robust Markdown support and a sleek dark UI.
+A clean, modern text editor built with Electron and TypeScript, featuring robust Markdown support and a sleek dark UI.
 
 ## Features
 
@@ -9,10 +9,10 @@ A clean, modern text editor built with Electron and TypeScript for Linux, featur
 - 🔗 **Rich Interaction** - Clickable links, email autolinks, and hover tooltips.
 - 🖱️ **Context Menu** - Right-click to Cut, Copy, and **Paste**.
 - 💾 **File Operations** - Open, save, and create new files with perfect formatting persistence.
-- 🎨 **Modern Dark UI** - Easy on the eyes with Glassmorphism elements.
+- 🎨 **Modern Dark UI** - Easy on the eyes with Glassmorphism elements and Tailwind-inspired design.
 - ⌨️ **Keyboard Shortcuts** - Efficient workflow with common shortcuts.
 - 📊 **Live Statistics** - Real-time word, character, and line count.
-- 🖥️ **Cross-Platform** - Built for Linux, but works on other platforms too.
+- 🖥️ **Cross-Platform** - Works on Linux and Windows.
 
 ## Project Structure
 
@@ -25,7 +25,13 @@ notes-editor/
 ├── renderer/
 │   ├── index.html        # HTML structure
 │   ├── styles.css        # Styling
-│   └── renderer.ts       # Renderer process (UI logic)
+│   ├── renderer.ts       # Renderer process (UI logic)
+│   ├── ui_manager.ts     # UI management module
+│   ├── markdown_utils.ts # Markdown parsing utilities
+│   └── context_menu.ts   # Context menu logic
+├── data/
+│   ├── help.json         # Help content
+│   └── changelog.json    # Version history
 ├── dist/                 # Compiled JavaScript (generated)
 ├── release/              # Packaged applications (generated)
 ├── package.json          # Project configuration
@@ -85,7 +91,7 @@ npm start
 npm run build
 ```
 
-### Package for Linux (Debian/Ubuntu)
+### Package for Linux
 
 ```bash
 npm run package:linux
@@ -94,6 +100,24 @@ npm run package:linux
 This will create distributable packages in the `release/` directory:
 - **.AppImage** - Portable application (runs on most Linux distros)
 - **.deb** - Debian/Ubuntu package
+
+### Package for Windows
+
+```bash
+npm run package:win
+```
+
+This will create Windows installers in the `release/` directory:
+- **NSIS Installer** - Standard Windows installer with customization options
+- **Portable** - Standalone executable that doesn't require installation
+
+### Package for All Platforms
+
+```bash
+npm run package:all
+```
+
+Builds for both Linux and Windows simultaneously.
 
 ### Arch Linux / AUR Support
 
@@ -113,7 +137,7 @@ If you prefer a native package manager installation:
 3. Build the .deb package: `npm run package:linux`
 4. Convert the .deb:
    ```bash
-   debtap release/notes-editor_0.3.0_amd64.deb
+   debtap release/notes-editor_0.5.0_amd64.deb
    ```
 5. Install the generated package: `sudo pacman -U notes-editor-*.pkg.tar.zst`
 

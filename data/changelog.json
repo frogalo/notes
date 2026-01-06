@@ -3,6 +3,81 @@
     "title": "Changelog",
     "releases": [
         {
+            "version": "0.5.1.3",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "Typing inside annotation now correctly adds text to annotation instead of main text",
+                        "Annotation box is now vertically centered on the line for better visual alignment"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.1.2",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Annotations now stick to the end of text instead of screen edge (auto-width)",
+                        "Typing '|' character moves cursor into annotation for continuous typing",
+                        "Annotations grow naturally with content without fixed width constraints"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.1.1",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "Nota annotations now correctly display on the right side of text",
+                        "Pressing Enter in annotation text creates new line without removing annotation"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.1",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "ADDED",
+                    "items": [
+                        "Nota: New annotation system using '|' delimiter for inline text annotations",
+                        "Tailwind-inspired styling for annotations with gradient border and blur effects",
+                        "Annotations appear on the left side of text with elegant visual distinction"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.0",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "ADDED",
+                    "items": [
+                        "Windows platform support with NSIS installer and portable builds",
+                        "Cross-platform packaging scripts (package:win, package:linux, package:all)",
+                        "Windows-specific build configuration with customizable installer options"
+                    ]
+                },
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Enhanced build system to support multi-platform compilation",
+                        "Added explicit file inclusion for better packaging control"
+                    ]
+                }
+            ]
+        },
+        {
             "version": "0.4.3",
             "date": "2026-01-06",
             "changes": [

@@ -488,10 +488,80 @@ body {
   filter: brightness(1.2);
 }
 
+
 /* Ensure empty blocks have height */
 .rich-editor div {
   min-height: 1.6em;
 }
+
+/* Nota Annotation System - Tailwind Inspired */
+.nota-line {
+  margin: 0.75em 0;
+}
+
+.nota-wrapper {
+  display: inline-flex;
+  gap: 1.5em;
+  align-items: center;
+  position: relative;
+}
+
+.nota-main {
+  line-height: 1.6;
+  order: 1;
+}
+
+.nota-annotation {
+  /* Tailwind-inspired annotation badge */
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f0f9ff;
+  /* sky-50 */
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  border-radius: 6px;
+  padding: 0.25em 0.75em;
+  white-space: normal;
+  flex-shrink: 0;
+  width: auto;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 0 15px rgba(14, 165, 233, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  order: 2;
+  cursor: text;
+  outline: none;
+}
+
+/* Shimmer effect on annotation */
+.nota-annotation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.nota-line:hover .nota-annotation::before {
+  left: 100%;
+}
+
+.nota-line:hover .nota-annotation {
+  border-color: rgba(14, 165, 233, 0.7);
+  box-shadow:
+    0 0 20px rgba(14, 165, 233, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateX(2px);
+}
+
+
 
 
 /* Status Bar */
@@ -1051,14 +1121,15 @@ body {
   letter-spacing: -0.025em;
   /* tracking-tight */
 }
+
 /* Context Menu - Modern Design Override */
 .context-menu {
   background: rgba(26, 31, 33, 0.98) !important;
   backdrop-filter: blur(12px);
   border: 1px solid rgba(172, 199, 204, 0.15) !important;
   border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 
-              0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
   padding: 6px !important;
   overflow: hidden;
 }
@@ -1205,7 +1276,7 @@ body {
   .help-items-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .help-section {
     padding: 1rem;
   }
@@ -1284,47 +1355,58 @@ body {
 
 /* Category-specific icon colors */
 .changelog-category-group:has([data-lucide="plus-circle"]) .changelog-category-icon {
-  color: #10b981; /* Green for ADDED */
+  color: #10b981;
+  /* Green for ADDED */
 }
 
 .changelog-category-group:has([data-lucide="wrench"]) .changelog-category-icon {
-  color: #ef4444; /* Red for FIXED */
+  color: #ef4444;
+  /* Red for FIXED */
 }
 
 .changelog-category-group:has([data-lucide="trending-up"]) .changelog-category-icon {
-  color: #3b82f6; /* Blue for IMPROVED */
+  color: #3b82f6;
+  /* Blue for IMPROVED */
 }
 
 .changelog-category-group:has([data-lucide="refresh-cw"]) .changelog-category-icon {
-  color: #f59e0b; /* Amber for CHANGED */
+  color: #f59e0b;
+  /* Amber for CHANGED */
 }
 
 .changelog-category-group:has([data-lucide="alert-triangle"]) .changelog-category-icon {
-  color: #f97316; /* Orange for DEPRECATED */
+  color: #f97316;
+  /* Orange for DEPRECATED */
 }
 
 .changelog-category-group:has([data-lucide="trash-2"]) .changelog-category-icon {
-  color: #dc2626; /* Dark red for REMOVED */
+  color: #dc2626;
+  /* Dark red for REMOVED */
 }
 
 .changelog-category-group:has([data-lucide="shield"]) .changelog-category-icon {
-  color: #8b5cf6; /* Purple for SECURITY */
+  color: #8b5cf6;
+  /* Purple for SECURITY */
 }
 
 .changelog-category-group:has([data-lucide="zap"]) .changelog-category-icon {
-  color: #eab308; /* Yellow for PERFORMANCE */
+  color: #eab308;
+  /* Yellow for PERFORMANCE */
 }
 
 .changelog-category-group:has([data-lucide="book-open"]) .changelog-category-icon {
-  color: #06b6d4; /* Cyan for DOCUMENTATION */
+  color: #06b6d4;
+  /* Cyan for DOCUMENTATION */
 }
 
 .changelog-category-group:has([data-lucide="arrow-up-circle"]) .changelog-category-icon {
-  color: #14b8a6; /* Teal for UPGRADED */
+  color: #14b8a6;
+  /* Teal for UPGRADED */
 }
 
 .changelog-category-group:has([data-lucide="corner-up-left"]) .changelog-category-icon {
-  color: #64748b; /* Slate for REVERTED */
+  color: #64748b;
+  /* Slate for REVERTED */
 }
 
 .changelog-category-label {
@@ -1367,7 +1449,7 @@ body {
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .changelog-changes {
     padding: 1rem;
   }

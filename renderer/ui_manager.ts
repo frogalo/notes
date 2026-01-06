@@ -181,7 +181,6 @@ export class UIManager {
         };
 
         let html = '<div class="changelog-container">';
-
         if (data.releases) {
             data.releases.forEach((release: any) => {
                 html += `<div class="changelog-release">`;

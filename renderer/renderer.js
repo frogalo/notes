@@ -245,10 +245,63 @@ class TextEditorRenderer {
                 block = block.parentElement;
             }
             if (block && block !== this.editor) {
-                this.processBlock(block);
+                const blockElement = block;
+                // Check if we're typing inside an annotation span
+                let node = sel.anchorNode;
+                let isInAnnotation = false;
+                while (node && node !== blockElement) {
+                    if (node.dataset?.notaAnnotation === 'true') {
+                        isInAnnotation = true;
+                        break;
+                    }
+                    node = node.parentElement;
+                }
+                // If typing inside annotation, don't reprocess the block
+                if (isInAnnotation) {
+                    // Just update modified state and stats
+                    const currentContent = this.editor.innerText || '';
+                    this.isModified = currentContent !== this.lastSavedContent;
+                    this.ui.updateStatusIndicator(this.isModified);
+                    this.ui.updateStatistics();
+                    return;
+                }
+                const text = blockElement.textContent || '';
+                // Check if we just typed the pipe character to enter annotation mode
+                if (text.includes('|') && !blockElement.classList.contains('nota-line')) {
+                    // Process the block to create the nota structure
+                    this.processBlock(blockElement);
+                    // Move cursor to the annotation span
+                    requestAnimationFrame(() => {
+                        const annotationSpan = blockElement.querySelector('[data-nota-annotation="true"]');
+                        if (annotationSpan) {
+                            const range = document.createRange();
+                            const selection = window.getSelection();
+                            // Place cursor inside annotation span at the end
+                            if (annotationSpan.firstChild && annotationSpan.firstChild.nodeType === Node.TEXT_NODE) {
+                                const textNode = annotationSpan.firstChild;
+                                range.setStart(textNode, textNode.textContent?.length || 0);
+                            }
+                            else if (annotationSpan.firstChild) {
+                                range.setStart(annotationSpan.firstChild, 0);
+                            }
+                            else {
+                                // If empty, create a text node
+                                const textNode = document.createTextNode('');
+                                annotationSpan.appendChild(textNode);
+                                range.setStart(textNode, 0);
+                            }
+                            range.collapse(true);
+                            selection?.removeAllRanges();
+                            selection?.addRange(range);
+                        }
+                    });
+                }
+                else {
+                    this.processBlock(blockElement);
+                }
                 if (this.activeBlock !== block) {
                     this.activeBlock?.classList.remove('active-block');
-                    this.activeBlock = block;
+                    this.activeBlock = blockElement;
                     this.activeBlock.classList.add('active-block');
                 }
             }
@@ -262,7 +315,7 @@ class TextEditorRenderer {
         const text = block.textContent || '';
         const wasActive = block.classList.contains('active-block');
         // Clear previous structural classes
-        block.classList.remove('md-block-h1', 'md-block-h2', 'md-block-h3', 'md-block-quote', 'md-block-ul', 'md-block-ol', 'md-block-hr', 'doc-title');
+        block.classList.remove('md-block-h1', 'md-block-h2', 'md-block-h3', 'md-block-quote', 'md-block-ul', 'md-block-ol', 'md-block-hr', 'doc-title', 'nota-line');
         // Use utility to format
         const isFirstLine = block === this.editor.firstElementChild;
         const { className, html } = MarkdownUtils.formatLine(text, isFirstLine);
@@ -275,10 +328,34 @@ class TextEditorRenderer {
         if (block.innerHTML !== html) {
             this.saveAndRestoreSelection(block, () => {
                 block.innerHTML = html;
+                // Setup event listeners for nota annotations
+                if (className === 'nota-line') {
+                    this.setupNotaAnnotationListeners(block);
+                }
             });
+        }
+        else if (className === 'nota-line') {
+            // Even if HTML didn't change, ensure listeners are set up
+            this.setupNotaAnnotationListeners(block);
         }
         if (wasActive && !block.classList.contains('active-block')) {
             block.classList.add('active-block');
+        }
+    }
+    setupNotaAnnotationListeners(block) {
+        const annotationSpan = block.querySelector('[data-nota-annotation="true"]');
+        if (annotationSpan && !annotationSpan.dataset.listenersAttached) {
+            // Mark as having listeners to avoid duplicate attachments
+            annotationSpan.dataset.listenersAttached = 'true';
+            // Prevent the annotation from triggering full block reprocessing
+            annotationSpan.addEventListener('input', (e) => {
+                e.stopPropagation();
+                // Just mark as modified without reprocessing
+                const currentContent = this.editor.innerText || '';
+                this.isModified = currentContent !== this.lastSavedContent;
+                this.ui.updateStatusIndicator(this.isModified);
+                this.ui.updateStatistics();
+            });
         }
     }
     saveAndRestoreSelection(block, action) {
@@ -386,6 +463,20 @@ class TextEditorRenderer {
                     this.processBlock(newDiv);
                     return;
                 }
+            }
+            // Check if we're in a nota annotation line
+            if (block.classList.contains('nota-line')) {
+                // Exit nota annotation mode - create clean paragraph
+                const newDiv = document.createElement('div');
+                newDiv.innerHTML = '<br>';
+                block.after(newDiv);
+                // Move cursor to new line
+                const range = document.createRange();
+                range.setStart(newDiv, 0);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+                return;
             }
             // Check if we're in an ordered list
             if (block.classList.contains('md-block-ol')) {

@@ -76,7 +76,18 @@ export class MarkdownUtils {
             }
         }
 
-        // Default: Inline Formatting
+        // Default: Check for nota annotation first, then apply inline formatting
+        const notaMatch = text.match(/^(.+?)\|(.*)$/);
+        if (notaMatch) {
+            const mainText = notaMatch[1].trim();
+            const annotation = notaMatch[2].trim();
+            const mainHtml = this.applyInlineFormatting(this.escapeHtml(mainText));
+            const annotationHtml = this.escapeHtml(annotation);
+            html = `<span class="nota-wrapper"><span class="nota-main" data-nota-main="true">${mainHtml}</span><span class="nota-annotation" contenteditable="true" data-nota-annotation="true">${annotationHtml}</span></span>`;
+            className = 'nota-line';
+            return { className, html };
+        }
+
         html = this.applyInlineFormatting(html);
 
         return { className, html };
