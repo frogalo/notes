@@ -98,7 +98,22 @@ class TextEditorRenderer {
     private getMarkdownContent(): string {
         const lines: string[] = [];
         this.editor.childNodes.forEach(node => {
-            if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                const el = node as HTMLElement;
+                if (el.classList.contains('nota-line')) {
+                    // Reconstruct nota line: "Main Text | Annotation"
+                    const mainSpan = el.querySelector('[data-nota-main="true"]');
+                    const annotationSpan = el.querySelector('[data-nota-annotation="true"]');
+                    
+                    const mainText = mainSpan ? mainSpan.textContent : '';
+                    const annotationText = annotationSpan ? annotationSpan.textContent : '';
+                    
+                    // We save it with the pipe separator so it can be parsed back
+                    lines.push(`${mainText} | ${annotationText}`);
+                } else {
+                    lines.push(node.textContent || '');
+                }
+            } else if (node.nodeType === Node.TEXT_NODE) {
                 lines.push(node.textContent || '');
             }
         });

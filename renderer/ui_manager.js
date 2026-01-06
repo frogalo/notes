@@ -3,9 +3,18 @@ export class UIManager {
         this.fonts = [
             { name: 'Headland One', class: 'font-headland' },
             { name: 'Rajdhani', class: 'font-rajdhani' },
-            { name: 'Noto Sans Multani', class: 'font-noto' }
+            { name: 'Noto Sans Multani', class: 'font-noto' },
+            { name: 'Lexend Mega', class: 'font-lexend' },
+            { name: 'Caveat Brush', class: 'font-caveat' },
+            { name: 'Noto Sans Bengali', class: 'font-bengali' }
         ];
         this.currentFontIndex = 0;
+        this.currentFontSize = 1.333; // Default size in rem
+        this.savedState = {
+            theme: 'default-dark',
+            fontIndex: 0,
+            fontSize: 1.333
+        };
         this.editor = editorElement;
         this.filePathDisplay = document.getElementById('file-path');
         this.statusIndicator = document.getElementById('status-indicator');
@@ -16,20 +25,145 @@ export class UIManager {
         this.infoModalTitle = document.getElementById('info-modal-title');
         this.infoModalBody = document.getElementById('info-modal-body');
         this.currentFontNameDisplay = document.getElementById('current-font-name');
+        this.stylesModal = document.getElementById('styles-modal');
         this.setupModalListeners();
-        this.loadFont();
+        this.loadAppearance();
     }
     setupModalListeners() {
-        // Modal close button
+        // Info Modal close button
         document.getElementById('close-modal-btn')?.addEventListener('click', () => this.closeModal());
-        // Close modal on overlay click
+        // Styles Modal close button (Cancel behavior)
+        document.getElementById('close-styles-modal-btn')?.addEventListener('click', () => {
+            this.revertAppearance();
+            this.stylesModal.classList.add('hidden');
+        });
+        // Styles Button in Toolbar (Open behavior)
+        document.getElementById('styles-btn')?.addEventListener('click', () => {
+            this.savedState = {
+                theme: localStorage.getItem('currentTheme') || 'default-dark',
+                fontIndex: parseInt(localStorage.getItem('currentFontIndex') || '0', 10),
+                fontSize: parseFloat(localStorage.getItem('currentFontSize') || '1.333')
+            };
+            // Sync UI with saved state just in case
+            this.updateStyleUI();
+            this.stylesModal.classList.remove('hidden');
+        });
+        // Save Button (Commit behavior)
+        document.getElementById('save-styles-btn')?.addEventListener('click', () => {
+            this.saveAppearance();
+            this.stylesModal.classList.add('hidden');
+        });
+        // Close modals on overlay click (Cancel behavior)
         this.infoModal.addEventListener('click', (e) => {
-            if (e.target === this.infoModal) {
+            if (e.target === this.infoModal)
                 this.closeModal();
+        });
+        this.stylesModal.addEventListener('click', (e) => {
+            if (e.target === this.stylesModal) {
+                this.revertAppearance();
+                this.stylesModal.classList.add('hidden');
             }
         });
-        // Font switcher
-        document.getElementById('next-font-btn')?.addEventListener('click', () => this.switchToNextFont());
+        // Initialize Custom Selects
+        this.initCustomSelects();
+        // Font Size Controls - Live Preview
+        document.getElementById('increase-font-btn')?.addEventListener('click', () => this.changeFontSize(0.1));
+        document.getElementById('decrease-font-btn')?.addEventListener('click', () => this.changeFontSize(-0.1));
+    }
+    initCustomSelects() {
+        // --- Theme Select ---
+        const themeSelect = document.getElementById('theme-custom-select');
+        if (themeSelect) {
+            const trigger = themeSelect.querySelector('.select-trigger');
+            const dropdown = themeSelect.querySelector('.select-dropdown');
+            // Toggle dropdown
+            trigger?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close others
+                document.querySelectorAll('.custom-select.open').forEach(el => {
+                    if (el !== themeSelect)
+                        el.classList.remove('open');
+                });
+                themeSelect.classList.toggle('open');
+            });
+            // Build Options
+            const themes = [
+                { label: 'Dark Themes', items: [
+                        { name: 'Default Dark', value: 'default-dark', colors: ['#0d1314', '#e5edef', '#acc7cc'] },
+                        { name: 'Dark Chocolate', value: 'dark-1', colors: ['#0a080a', '#f2eef3', '#c2b3c6'] },
+                        { name: 'Deep Blue & Violet', value: 'dark-2', colors: ['#05161e', '#e5f3fb', '#80cfeb'] },
+                        { name: 'Neon Pink', value: 'dark-3', colors: ['#0e0007', '#ffd0ee', '#fe6cc5'] }
+                    ] },
+                { label: 'Light Themes', items: [
+                        { name: 'Soft Gold & Green', value: 'light-1', colors: ['#f8f7f2', '#15150b', '#ada564'] },
+                        { name: 'Pink & Rose', value: 'light-2', colors: ['#faf6f8', '#0c080a', '#bd488c'] },
+                        { name: 'Fresh Green', value: 'light-3', colors: ['#f9fbf9', '#0b0f0b', '#4fb25b'] },
+                        { name: 'Purple & Pink', value: 'light-4', colors: ['#fbf9ff', '#0e011c', '#781bf6'] }
+                    ] }
+            ];
+            if (dropdown) {
+                dropdown.innerHTML = ''; // Clear
+                themes.forEach(group => {
+                    const header = document.createElement('div');
+                    header.className = 'select-group-header';
+                    header.textContent = group.label;
+                    dropdown.appendChild(header);
+                    group.items.forEach(item => {
+                        const opt = document.createElement('div');
+                        opt.className = 'select-option';
+                        opt.dataset.value = item.value;
+                        // Color Dots
+                        let dotsHtml = '<div class="theme-preview-dots">';
+                        item.colors.forEach(c => {
+                            dotsHtml += `<div class="dot" style="background-color: ${c}"></div>`;
+                        });
+                        dotsHtml += '</div>';
+                        opt.innerHTML = `${dotsHtml}<span>${item.name}</span>`;
+                        opt.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.setTheme(item.value);
+                            themeSelect.classList.remove('open');
+                        });
+                        dropdown.appendChild(opt);
+                    });
+                });
+            }
+        }
+        // --- Font Select ---
+        const fontSelect = document.getElementById('font-custom-select');
+        if (fontSelect) {
+            const trigger = fontSelect.querySelector('.select-trigger');
+            const dropdown = fontSelect.querySelector('.select-dropdown');
+            trigger?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close others
+                document.querySelectorAll('.custom-select.open').forEach(el => {
+                    if (el !== fontSelect)
+                        el.classList.remove('open');
+                });
+                fontSelect.classList.toggle('open');
+            });
+            if (dropdown) {
+                dropdown.innerHTML = '';
+                this.fonts.forEach((font, index) => {
+                    const opt = document.createElement('div');
+                    opt.className = `select-option ${font.class}`; // Apply font class
+                    opt.textContent = font.name;
+                    opt.style.fontSize = '1.1rem'; // Make it slightly larger to see detail
+                    opt.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.currentFontIndex = index;
+                        this.applyFont();
+                        fontSelect.classList.remove('open');
+                    });
+                    dropdown.appendChild(opt);
+                });
+            }
+        }
+        // Close all on window click
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.custom-select.open').forEach(el => el.classList.remove('open'));
+        });
     }
     updateFilePathDisplay(path) {
         if (path) {
@@ -182,20 +316,91 @@ export class UIManager {
             window.lucide.createIcons();
         }
     }
-    loadFont() {
+    loadAppearance() {
+        // Load initial state from local storage
+        this.savedState.theme = localStorage.getItem('currentTheme') || 'default-dark';
         const savedFontIndex = localStorage.getItem('currentFontIndex');
-        if (savedFontIndex !== null) {
-            this.currentFontIndex = parseInt(savedFontIndex, 10);
-            if (this.currentFontIndex >= this.fonts.length) {
-                this.currentFontIndex = 0;
-            }
-        }
+        if (savedFontIndex !== null)
+            this.savedState.fontIndex = parseInt(savedFontIndex, 10);
+        const savedFontSize = localStorage.getItem('currentFontSize');
+        if (savedFontSize !== null)
+            this.savedState.fontSize = parseFloat(savedFontSize);
+        // Apply
+        this.currentFontIndex = this.savedState.fontIndex;
+        this.currentFontSize = this.savedState.fontSize;
+        this.setTheme(this.savedState.theme);
         this.applyFont();
+        this.applyFontSize();
+        // Update UI controls
+        this.updateStyleUI();
     }
-    switchToNextFont() {
-        this.currentFontIndex = (this.currentFontIndex + 1) % this.fonts.length;
-        this.applyFont();
+    updateStyleUI() {
+        // Update Theme Select UI
+        const currentTheme = localStorage.getItem('currentTheme') || 'default-dark';
+        const themeSelect = document.getElementById('theme-custom-select');
+        if (themeSelect) {
+            const displayText = themeSelect.querySelector('.selected-text');
+            // Find name from value - quick lookup
+            const themes = [
+                { name: 'Default Dark', value: 'default-dark' },
+                { name: 'Dark Chocolate', value: 'dark-1' },
+                { name: 'Deep Blue & Violet', value: 'dark-2' },
+                { name: 'Neon Pink', value: 'dark-3' },
+                { name: 'Soft Gold & Green', value: 'light-1' },
+                { name: 'Pink & Rose', value: 'light-2' },
+                { name: 'Fresh Green', value: 'light-3' },
+                { name: 'Purple & Pink', value: 'light-4' }
+            ];
+            const foundState = themes.find(t => t.value === currentTheme);
+            if (displayText && foundState)
+                displayText.textContent = foundState.name;
+        }
+        // Update Font Select UI
+        // We do this in applyFont as well to keep sync
+        this.updateFontSizeDisplay();
+    }
+    saveAppearance() {
+        // Commit current state to local storage
+        localStorage.setItem('currentTheme', document.body.getAttribute('data-theme') || 'default-dark');
         localStorage.setItem('currentFontIndex', this.currentFontIndex.toString());
+        localStorage.setItem('currentFontSize', this.currentFontSize.toString());
+        // Update saved state
+        this.savedState = {
+            theme: localStorage.getItem('currentTheme') || 'default-dark',
+            fontIndex: this.currentFontIndex,
+            fontSize: this.currentFontSize
+        };
+    }
+    revertAppearance() {
+        // Revert to saved state
+        this.setTheme(this.savedState.theme);
+        this.currentFontIndex = this.savedState.fontIndex;
+        this.applyFont();
+        this.currentFontSize = this.savedState.fontSize;
+        this.applyFontSize();
+        this.updateStyleUI();
+    }
+    setTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        // Update Select Trigger Text
+        const themeSelect = document.getElementById('theme-custom-select');
+        if (themeSelect) {
+            const displayText = themeSelect.querySelector('.selected-text');
+            // Helper to get name from value
+            const allThemes = [
+                { name: 'Default Dark', value: 'default-dark' },
+                { name: 'Dark Chocolate', value: 'dark-1' },
+                { name: 'Deep Blue & Violet', value: 'dark-2' },
+                { name: 'Neon Pink', value: 'dark-3' },
+                { name: 'Soft Gold & Green', value: 'light-1' },
+                { name: 'Pink & Rose', value: 'light-2' },
+                { name: 'Fresh Green', value: 'light-3' },
+                { name: 'Purple & Pink', value: 'light-4' }
+            ];
+            const foundState = allThemes.find(t => t.value === theme);
+            if (displayText && foundState)
+                displayText.textContent = foundState.name;
+        }
     }
     applyFont() {
         const font = this.fonts[this.currentFontIndex];
@@ -207,6 +412,37 @@ export class UIManager {
         // Add new font class to editor and body
         this.editor.classList.add(font.class);
         document.body.classList.add(font.class);
-        this.currentFontNameDisplay.textContent = font.name;
+        // Update Live Preview Box font
+        const previewBox = document.getElementById('font-preview');
+        if (previewBox) {
+            // Remove old classes
+            this.fonts.forEach(f => previewBox.classList.remove(f.class));
+            // Add new class
+            previewBox.classList.add(font.class);
+        }
+        // Update Custom Select Trigger
+        const fontTriggerText = document.getElementById('font-trigger-text');
+        if (fontTriggerText) {
+            fontTriggerText.textContent = font.name;
+            // Also apply font class to trigger text?
+            this.fonts.forEach(f => fontTriggerText.classList.remove(f.class));
+            fontTriggerText.classList.add(font.class);
+        }
+    }
+    changeFontSize(delta) {
+        this.currentFontSize = Math.max(0.5, Math.min(4.0, this.currentFontSize + delta));
+        this.currentFontSize = Math.round(this.currentFontSize * 10) / 10; // Round to 1 decimal
+        this.updateFontSizeDisplay();
+        this.applyFontSize();
+        // localStorage write moved to saveAppearance
+    }
+    applyFontSize() {
+        document.documentElement.style.setProperty('--font-size-xl', `${this.currentFontSize}rem`);
+    }
+    updateFontSizeDisplay() {
+        const display = document.getElementById('font-size-display');
+        if (display) {
+            display.textContent = `${this.currentFontSize}rem`;
+        }
     }
 }

@@ -1,90 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:"
+    />
+    <title>Notes Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Headland+One&family=Lexend+Mega:wght@100..900&family=Noto+Sans+Bengali:wght@100..900&family=Rajdhani:wght@400;700&family=Noto+Sans+Multani&family=Encode+Sans+SC:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy"
-    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:">
-  <title>Notes Editor</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Headland+One&family=Rajdhani:wght@400;700&family=Noto+Sans+Multani&family=Encode+Sans+SC:wght@400;700&display=swap"
-    rel="stylesheet">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <body>
+    <div class="app-container">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-section">
+          <button
+            id="new-file-btn"
+            class="toolbar-btn btn-primary"
+            title="New File (Ctrl+N)"
+          >
+            <i data-lucide="file-plus" class="icon"></i>
+            <span>New</span>
+          </button>
 
-<body>
-  <div class="app-container">
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <div class="toolbar-section">
-        <button id="new-file-btn" class="toolbar-btn btn-primary" title="New File (Ctrl+N)">
-          <i data-lucide="file-plus" class="icon"></i>
-          <span>New</span>
-        </button>
+          <button
+            id="open-file-btn"
+            class="toolbar-btn btn-secondary"
+            title="Open File (Ctrl+O)"
+          >
+            <i data-lucide="folder-open" class="icon"></i>
+            <span>Open</span>
+          </button>
 
-        <button id="open-file-btn" class="toolbar-btn btn-secondary" title="Open File (Ctrl+O)">
-          <i data-lucide="folder-open" class="icon"></i>
-          <span>Open</span>
-        </button>
-
-        <button id="save-file-btn" class="toolbar-btn btn-accent" title="Save File (Ctrl+S)">
-          <i data-lucide="save" class="icon"></i>
-          <span>Save</span>
-        </button>
-      </div>
-
-      <div class="toolbar-section">
-        <button id="help-btn" class="toolbar-btn btn-ghost" title="Help">
-          <i data-lucide="help-circle" class="icon"></i>
-          <span>Help</span>
-        </button>
-
-        <button id="changelog-btn" class="toolbar-btn btn-ghost" title="Changelog">
-          <i data-lucide="scroll-text" class="icon"></i>
-          <span>Changelog</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Editor Area -->
-    <div class="editor-container">
-      <div id="rich-editor" class="rich-editor" contenteditable="true" spellcheck="false"></div>
-    </div>
-
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <div class="status-group left">
-        <div class="status-item file-info">
-          <span id="status-indicator" class="status-indicator" title="No changes"></span>
-          <span id="file-path" class="file-path">Untitled</span>
-        </div>
-      </div>
-
-      <div class="status-group right">
-        <div class="status-item">
-          <button id="next-font-btn" class="font-btn" title="Switch Font">
-            <i data-lucide="type" class="icon"></i>
-            <span id="current-font-name">Headland One</span>
+          <button
+            id="save-file-btn"
+            class="toolbar-btn btn-accent"
+            title="Save File (Ctrl+S)"
+          >
+            <i data-lucide="save" class="icon"></i>
+            <span>Save</span>
           </button>
         </div>
-        <div class="status-item">
-          <span id="line-count">Lines: 1</span>
-        </div>
-        <div class="status-item">
-          <span id="char-count">Characters: 0</span>
-        </div>
-        <div class="status-item">
-          <span id="word-count">Words: 0</span>
+
+        <div class="toolbar-section">
+          <button id="styles-btn" class="toolbar-btn btn-ghost" title="Styles">
+            <i data-lucide="palette" class="icon"></i>
+            <span>Styles</span>
+          </button>
+
+          <button id="help-btn" class="toolbar-btn btn-ghost" title="Help">
+            <i data-lucide="help-circle" class="icon"></i>
+            <span>Help</span>
+          </button>
+
+          <button
+            id="changelog-btn"
+            class="toolbar-btn btn-ghost"
+            title="Changelog"
+          >
+            <i data-lucide="scroll-text" class="icon"></i>
+            <span>Changelog</span>
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- Info Modal -->
+      <!-- Editor Area -->
+      <div class="editor-container">
+        <div
+          id="rich-editor"
+          class="rich-editor"
+          contenteditable="true"
+          spellcheck="false"
+        ></div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <div class="status-group left">
+          <div class="status-item file-info">
+            <span
+              id="status-indicator"
+              class="status-indicator"
+              title="No changes"
+            ></span>
+            <span id="file-path" class="file-path">Untitled</span>
+          </div>
+        </div>
+
+        <div class="status-group right">
+          <!-- Font switcher moved to Styles modal -->
+          <div class="status-item">
+            <span id="line-count">Lines: 1</span>
+          </div>
+          <div class="status-item">
+            <span id="char-count">Characters: 0</span>
+          </div>
+          <div class="status-item">
+            <span id="word-count">Words: 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Modal -->
     <div id="info-modal" class="info-modal hidden">
       <div class="info-modal-content">
         <div class="info-modal-header">
@@ -96,44 +123,117 @@
         <div id="info-modal-body" class="info-modal-body"></div>
       </div>
     </div>
+
+    <!-- Styles Modal -->
+    <div id="styles-modal" class="info-modal hidden">
+      <div class="info-modal-content" style="max-width: 500px">
+        <div class="info-modal-header">
+          <h2>Appearance</h2>
+          <button id="close-styles-modal-btn" class="close-btn" title="Close">
+            <i data-lucide="x" class="icon"></i>
+          </button>
+        </div>
+        <div class="info-modal-body" style="padding-bottom: 0;">
+          <div class="styles-form">
+            <!-- Theme Selection -->
+            <div class="style-group">
+                <label>Theme</label>
+                <!-- Custom Select for Theme -->
+                <div id="theme-custom-select" class="custom-select">
+                    <div class="select-trigger">
+                        <div class="content">
+                            <span class="selected-text">Default Dark</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="chevron"></i>
+                    </div>
+                    <div class="select-dropdown">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Font Selection -->
+            <div class="style-group">
+                <label>Font Family</label>
+                 <!-- Custom Select for Font -->
+                 <div id="font-custom-select" class="custom-select">
+                    <div class="select-trigger">
+                         <div class="content">
+                            <span class="selected-text" id="font-trigger-text">Headland One</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="chevron"></i>
+                    </div>
+                    <div class="select-dropdown">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+                <!-- Font Preview Box (Keep existing one) -->
+                <div id="font-preview" class="font-preview-box">
+                    The quick brown fox
+                </div>
+            </div>
+
+            <!-- Font Size -->
+            <div class="style-group">
+                <label>Font Size</label>
+                <div class="font-size-controls">
+                    <button id="decrease-font-btn" class="toolbar-btn btn-ghost" title="Decrease Size">
+                        <i data-lucide="minus" class="icon"></i>
+                    </button>
+                    <span id="font-size-display">16px</span>
+                    <button id="increase-font-btn" class="toolbar-btn btn-ghost" title="Increase Size">
+                        <i data-lucide="plus" class="icon"></i>
+                    </button>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+            <button id="save-styles-btn" class="toolbar-btn btn-save" title="Save Preferences">
+                <i data-lucide="save" class="icon"></i>
+                <span>Save Changes</span>
+            </button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Context Menu -->
-  <div id="context-menu" class="context-menu hidden">
-    <div id="ctx-cut" class="context-menu-item">
-      <i data-lucide="scissors" class="icon"></i>
-      <span>Cut</span>
+    <!-- Context Menu -->
+    <div id="context-menu" class="context-menu hidden">
+      <div id="ctx-cut" class="context-menu-item">
+        <i data-lucide="scissors" class="icon"></i>
+        <span>Cut</span>
+      </div>
+      <div id="ctx-copy" class="context-menu-item">
+        <i data-lucide="copy" class="icon"></i>
+        <span>Copy</span>
+      </div>
+      <div id="ctx-paste" class="context-menu-item">
+        <i data-lucide="clipboard" class="icon"></i>
+        <span>Paste</span>
+      </div>
     </div>
-    <div id="ctx-copy" class="context-menu-item">
-      <i data-lucide="copy" class="icon"></i>
-      <span>Copy</span>
-    </div>
-    <div id="ctx-paste" class="context-menu-item">
-      <i data-lucide="clipboard" class="icon"></i>
-      <span>Paste</span>
-    </div>
-  </div>
 
-  <script type="module" src="renderer.js"></script>
-  <script>
-    // Initialize Lucide icons - multiple triggers to ensure they load
-    function initIcons() {
-      if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-        console.log('Lucide icons initialized');
-      } else {
-        console.warn('Lucide not loaded yet');
+    <script type="module" src="renderer.js"></script>
+    <script>
+      // Initialize Lucide icons - multiple triggers to ensure they load
+      function initIcons() {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+          console.log("Lucide icons initialized");
+        } else {
+          console.warn("Lucide not loaded yet");
+        }
       }
-    }
 
-    // Try on DOMContentLoaded
-    document.addEventListener('DOMContentLoaded', initIcons);
+      // Try on DOMContentLoaded
+      document.addEventListener("DOMContentLoaded", initIcons);
 
-    // Also try on window load as backup
-    window.addEventListener('load', () => {
-      setTimeout(initIcons, 100);
-    });
-  </script>
-</body>
-
+      // Also try on window load as backup
+      window.addEventListener("load", () => {
+        setTimeout(initIcons, 100);
+      });
+    </script>
+  </body>
 </html>

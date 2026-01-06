@@ -1,7 +1,68 @@
 {
-    "version": "0.3.0",
+    "version": "0.5.5",
     "title": "Changelog",
     "releases": [
+        {
+            "version": "0.5.5",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Updated application logo and window icon",
+                        "Improved file saving logic to correctly persist 'Nota' annotations"
+                    ]
+                },
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "Fixed issue where annotations were lost upon saving and reloading files",
+                        "Fixed annotation accessibility and visibility in light themes"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.4",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Added live preview to Theme and Font selectors",
+                        "Implemented cancel/revert functionality in Styles modal",
+                        "Enhanced modal theming consistency across Light and Dark modes"
+                    ]
+                },
+                {
+                    "category": "FIXED",
+                    "items": [
+                        "Fixed Help and Changelog modal colors to respect selected theme"
+                    ]
+                }
+            ]
+        },
+        {
+            "version": "0.5.3",
+            "date": "2026-01-06",
+            "changes": [
+                {
+                    "category": "ADDED",
+                    "items": [
+                        "Styles Modal for centralized appearance management",
+                        "Theme selection with 7 new Light and Dark themes",
+                        "Font size controls for customizable reading experience",
+                        "New Fonts: Lexend Mega, Caveat Brush, Noto Sans Bengali"
+                    ]
+                },
+                {
+                    "category": "IMPROVED",
+                    "items": [
+                        "Re-enabled System Acceleration for smoother UI performance"
+                    ]
+                }
+            ]
+        },
         {
             "version": "0.5.1.3",
             "date": "2026-01-06",

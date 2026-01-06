@@ -66,6 +66,7 @@ npm run dev
 ```
 
 This will:
+
 1. Compile TypeScript files to JavaScript
 2. Launch the Electron application
 
@@ -98,6 +99,7 @@ npm run package:linux
 ```
 
 This will create distributable packages in the `release/` directory:
+
 - **.AppImage** - Portable application (runs on most Linux distros)
 - **.deb** - Debian/Ubuntu package
 
@@ -108,6 +110,7 @@ npm run package:win
 ```
 
 This will create Windows installers in the `release/` directory:
+
 - **NSIS Installer** - Standard Windows installer with customization options
 - **Portable** - Standalone executable that doesn't require installation
 
@@ -124,12 +127,14 @@ Builds for both Linux and Windows simultaneously.
 While this package is not yet officially hosted on the AUR, you can easily install it on Arch Linux using one of the following methods:
 
 #### Method 1: AppImage (Universal)
+
 1. Build the AppImage: `npm run package:linux`
 2. Locate the file in `release/Notes Editor-x.x.x.AppImage`.
 3. Make it executable: `chmod +x release/*.AppImage`
 4. Run it directly: `./release/Notes Editor-x.x.x.AppImage` (or double click).
 
 #### Method 2: Convert .deb using `debtap`
+
 If you prefer a native package manager installation:
 
 1. Install `debtap` from AUR: `yay -S debtap`
@@ -143,28 +148,31 @@ If you prefer a native package manager installation:
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
-|----------|--------|
-| `Ctrl+N` | New File |
-| `Ctrl+O` | Open File |
-| `Ctrl+S` | Save File |
-| `Ctrl+Shift+S` | Save As |
-| `Tab` | Insert 2 Spaces |
+| Shortcut       | Action          |
+| -------------- | --------------- |
+| `Ctrl+N`       | New File        |
+| `Ctrl+O`       | Open File       |
+| `Ctrl+S`       | Save File       |
+| `Ctrl+Shift+S` | Save As         |
+| `Tab`          | Insert 2 Spaces |
 
 ## Architecture
 
 ### Main Process (`src/main.ts`)
+
 - Manages application lifecycle
 - Creates and controls windows
 - Handles file system operations
 - Implements IPC handlers
 
 ### Preload Script (`src/preload.ts`)
+
 - Secure bridge between main and renderer processes
 - Exposes safe APIs using `contextBridge`
 - Prevents direct access to Node.js APIs
 
 ### Renderer Process (`renderer/`)
+
 - User interface and interactions
 - Communicates with main process via exposed APIs
 - Handles editor state and statistics

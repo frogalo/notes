@@ -1,6 +1,6 @@
 {
   "name": "notes-editor",
-  "version": "0.5.2",
+  "version": "0.5.5",
   "description": "A simple text editor built with Electron",
   "main": "dist/main.js",
   "author": "Your Name",
@@ -49,7 +49,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "build/icon.ico"
+      "icon": "images/logo.png"
     },
     "nsis": {
       "oneClick": false,
